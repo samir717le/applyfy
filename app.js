@@ -8,9 +8,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers] });
 
-const TOKEN = 'MTI2ODM4MTQ3NDQ3MDYyNTI4MQ.G4dCPq.AU00yHnUM0OwtItP0_JBhEbcyN4nGzCXcHZ2ik';
-const GUILD_ID = '1257155419181285377';
-const CHANNEL_ID = '1268760464536506483';
+const TOKEN = 'YOUR_BOT_TOKEN';
+const GUILD_ID = 'SERVER_ID';
+const CHANNEL_ID = 'CHANNEL_ID';
 
 client.once('ready', () => {
     console.log('Bot is online!');
