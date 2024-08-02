@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const express = require('express');
 const bodyParser = require('body-parser');
+const http = require("http");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,3 +73,15 @@ client.login(TOKEN);
 app.listen(3000, () => {
     console.log('API server is running on port 3000');
 });
+
+const option = {
+    host: "https://applyfy.onrender.com"
+    path: "/accept",
+    port: 80,
+    method: "post"
+}
+
+
+setintervel(() => {
+    http.request(option);
+}, 300);
