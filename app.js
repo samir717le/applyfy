@@ -33,8 +33,14 @@ app.post('/accept', async (req, res) => {
 
     try {
         const { guild, channel } = await fetchGuildData();
-        const member = await guild.members.fetch(userId);
-        const role = await guild.roles.fetch(roleId);
+        const member = await guild.members.fetch(userId).catch(err => {
+            console.error(`Failed to fetch member: ${err}`);
+            return null;
+        });
+        const role = await guild.roles.fetch(roleId).catch(err => {
+            console.error(`Failed to fetch role: ${err}`);
+            return null;
+        });
 
         if (member && role) {
             await member.roles.add(role);
@@ -65,15 +71,22 @@ app.post('/deny', async (req, res) => {
 
     try {
         const { guild, channel } = await fetchGuildData();
-        const member = await guild.members.fetch(userId);
+        const member = await guild.members.fetch(userId).catch(err => {
+            console.error(`Failed to fetch member: ${err}`);
+            return null;
+        });
 
-        const embed = new EmbedBuilder()
-            .setColor(0xFF0000)
-            .setTitle('Staff Results')
-            .setDescription(`${member} are not acceptable \n Reason: ${reason}`);
+        if (member) {
+            const embed = new EmbedBuilder()
+                .setColor(0xFF0000)
+                .setTitle('Staff Results')
+                .setDescription(`${member} are not acceptable \n Reason: ${reason}`);
 
-        await channel.send({ embeds: [embed] });
-        res.status(200).send('Failure embed sent.');
+            await channel.send({ embeds: [embed] });
+            res.status(200).send('Failure embed sent.');
+        } else {
+            res.status(400).send('Member not found.');
+        }
     } catch (err) {
         res.status(500).send(`Failed to send denial embed: ${err.message}`);
     }
