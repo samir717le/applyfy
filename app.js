@@ -29,7 +29,8 @@ const fetchGuildData = async () => {
 };
 
 app.post('/accept', async (req, res) => {
-    const { userId, roleId } = req.body;
+    const { userId } = req.body;
+    const roleId = process.env.ROLEID
 
     try {
         const { guild, channel } = await fetchGuildData();
