@@ -69,7 +69,7 @@ app.post('/accept', async (req, res) => {
 
 app.post('/deny', async (req, res) => {
     const { userId, reason } = req.body;
-
+    console.log(userId, reason);
     try {
         const { guild, channel } = await fetchGuildData();
         const member = await guild.members.fetch(userId).catch(err => {
