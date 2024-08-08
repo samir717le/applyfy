@@ -87,7 +87,7 @@ app.post('/deny', async (req, res) => {
 
             await channel.send({ embeds: [embed] });
             res.status(200).send('Failure embed sent.');
-            res.redirect(REDRICTURL)
+          //  res.redirect(REDRICTURL)
         } else {
             res.status(400).send('Member not found.');
         }
