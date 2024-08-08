@@ -17,6 +17,7 @@ const client = new Client({
 const TOKEN = process.env.TOKEN;
 const GUILD_ID = process.env.GUILD;
 const CHANNEL_ID = process.env.CHANNEL;
+const REDRICTURL = process.env.REDRICTURL;
 
 client.once('ready', () => {
     console.log('Bot is online!');
@@ -29,8 +30,8 @@ const fetchGuildData = async () => {
 };
 
 app.post('/accept', async (req, res) => {
-    const { userId } = req.body;
-    const roleId = process.env.ROLEID
+    const { userId, roleId } = req.body;
+   // const roleId = process.env.ROLEID
 
     try {
         const { guild, channel } = await fetchGuildData();
@@ -52,6 +53,7 @@ app.post('/accept', async (req, res) => {
 
             await channel.send({ embeds: [embed] });
             res.status(200).send('Role assigned and embed sent.');
+            res.redirect(REDRICTURL);
         } else {
             res.status(400).send('Member or role not found.');
         }
@@ -85,6 +87,7 @@ app.post('/deny', async (req, res) => {
 
             await channel.send({ embeds: [embed] });
             res.status(200).send('Failure embed sent.');
+            res.redirect(REDRICTURL)
         } else {
             res.status(400).send('Member not found.');
         }
