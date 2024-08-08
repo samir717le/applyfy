@@ -53,7 +53,7 @@ app.post('/accept', async (req, res) => {
 
             await channel.send({ embeds: [embed] });
             res.status(200).send('Role assigned and embed sent.');
-            res.redirect(REDRICTURL);
+          //  res.redirect(REDRICTURL);
         } else {
             res.status(400).send('Member or role not found.');
         }
