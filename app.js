@@ -30,15 +30,15 @@ const fetchGuildData = async () => {
 };
 app.post('/set', async (req, res) => {
 const { channelId } = req.body;
-    const data = `const CHANNEL_ID = ${channelid}`
+    const data = `const CHANNEL_ID = ${channelid}`;
     fs.appendFile("config.js", data, (err) => {
      if (err) { 
          res.end(err); 
          throw err;
-     }
+     },
       res.end("successful");
-    }
-}
+    },
+},
 
 require("./config.js");
 
