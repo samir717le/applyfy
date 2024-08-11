@@ -17,7 +17,9 @@ const client = new Client({
 
 const TOKEN = process.env.TOKEN;
 const GUILD_ID = process.env.GUILD;
-const REDRICTURL = process.env.REDRICTURL;
+const REDIRECT_URL = process.env.REDIRECT_URL;
+
+let CHANNEL_ID = null;
 
 client.once('ready', () => {
     console.log('Bot is online!');
@@ -28,23 +30,24 @@ const fetchGuildData = async () => {
     const channel = await client.channels.fetch(CHANNEL_ID);
     return { guild, channel };
 };
+
 app.post('/set', async (req, res) => {
-const { channelId } = req.body;
-    const data = `const CHANNEL_ID = ${channelid}`;
+    const { channelId } = req.body;
+    const data = `CHANNEL_ID = '${channelId}';\n`;
     fs.appendFile("config.js", data, (err) => {
-     if (err) { 
-         res.end(err); 
-         throw err;
-     },
-      res.end("successful");
-    },
-},
+        if (err) { 
+            res.status(500).end(err);
+            throw err;
+        }
+        CHANNEL_ID = channelId;
+        res.status(200).end("Channel ID set successfully");
+    });
+});
 
 require("./config.js");
 
 app.post('/accept', async (req, res) => {
     const { userId, roleId } = req.body;
-    // const roleId = process.env.ROLEID
 
     try {
         const { guild, channel } = await fetchGuildData();
@@ -66,7 +69,7 @@ app.post('/accept', async (req, res) => {
 
             await channel.send({ embeds: [embed] });
             res.status(200).send('Role assigned and embed sent.');
-          //  res.redirect(REDRICTURL);
+            // res.redirect(REDIRECT_URL);
         } else {
             res.status(400).send('Member or role not found.');
         }
@@ -100,7 +103,7 @@ app.post('/deny', async (req, res) => {
 
             await channel.send({ embeds: [embed] });
             res.status(200).send('Failure embed sent.');
-          //  res.redirect(REDRICTURL)
+            // res.redirect(REDIRECT_URL);
         } else {
             res.status(400).send('Member not found.');
         }
