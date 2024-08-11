@@ -34,7 +34,7 @@ const { channelId } = req.body;
     fs.appendFile("config.js", data, (err) => {
      if (err) { 
          res.end(err); 
-         break; 
+         throw err;
      }
       res.end("successful");
     }
