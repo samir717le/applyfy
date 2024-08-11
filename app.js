@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require("fs");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +17,6 @@ const client = new Client({
 
 const TOKEN = process.env.TOKEN;
 const GUILD_ID = process.env.GUILD;
-const CHANNEL_ID = process.env.CHANNEL;
 const REDRICTURL = process.env.REDRICTURL;
 
 client.once('ready', () => {
@@ -28,6 +28,19 @@ const fetchGuildData = async () => {
     const channel = await client.channels.fetch(CHANNEL_ID);
     return { guild, channel };
 };
+app.post('/set', async (req, res) => {
+const { channelId } = req.body;
+    const data = `const CHANNEL_ID = ${channelid}`
+    fs.appendFile("config.js", data, (err) => {
+     if (err) { 
+         res.end(err); 
+         break; 
+     }
+      res.end("successful");
+    }
+}
+
+require("./config.js");
 
 app.post('/accept', async (req, res) => {
     const { userId, roleId } = req.body;
